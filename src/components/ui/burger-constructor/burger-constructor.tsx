@@ -14,6 +14,7 @@ import styles from './burger-constructor.module.css';
 export const BurgerConstructorUI = ({
   constructorItems,
   orderRequest,
+  orderError,
   price,
   orderModalData,
   onOrderClick,
@@ -82,6 +83,7 @@ export const BurgerConstructorUI = ({
       </Button>
     </div>
 
+    {orderError && <p className="text text_type_main-default">{orderError}</p>}
     {orderRequest && (
       <Modal onClose={closeOrderModal} title={'Оформляем заказ...'}>
         <Preloader />

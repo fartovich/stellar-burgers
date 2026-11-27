@@ -13,6 +13,7 @@ export const LoginUI = ({
   email,
   setEmail,
   errorText,
+  locationState,
   handleSubmit,
   password,
   setPassword,
@@ -55,13 +56,17 @@ export const LoginUI = ({
       </form>
       <div className={`pb-4 ${styles.question} text text_type_main-default`}>
         Вы - новый пользователь?
-        <Link to="/register" className={`pl-2 ${styles.link}`}>
+        <Link to="/register" state={locationState} className={`pl-2 ${styles.link}`}>
           Зарегистрироваться
         </Link>
       </div>
       <div className={`${styles.question} text text_type_main-default pb-6`}>
         Забыли пароль?
-        <Link to={'/forgot-password'} className={`pl-2 ${styles.link}`}>
+        <Link
+          to={'/forgot-password'}
+          state={locationState}
+          className={`pl-2 ${styles.link}`}
+        >
           Восстановить пароль
         </Link>
       </div>
