@@ -20,6 +20,9 @@ type UserState = {
   isChecked: boolean;
   isLoading: boolean;
   error: string | null;
+  loginError: string | null;
+  registerError: string | null;
+  updateUserError: string | null;
 };
 
 const initialState: UserState = {
@@ -27,6 +30,9 @@ const initialState: UserState = {
   isChecked: false,
   isLoading: false,
   error: null,
+  loginError: null,
+  registerError: null,
+  updateUserError: null,
 };
 
 const saveTokens = (data: { accessToken: string; refreshToken: string }): void => {
@@ -121,6 +127,30 @@ export const userSlice = createSlice({
         state.user = null;
         state.isLoading = false;
       })
+      .addCase(loginUser.pending, (state) => {
+        state.loginError = null;
+        state.isLoading = true;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loginError = action.error.message ?? 'Ошибка запроса';
+        state.isLoading = false;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.registerError = null;
+        state.isLoading = true;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.registerError = action.error.message ?? 'Ошибка запроса';
+        state.isLoading = false;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.updateUserError = null;
+        state.isLoading = true;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.updateUserError = action.error.message ?? 'Ошибка запроса';
+        state.isLoading = false;
+      })
       .addMatcher(
         isAnyOf(loginUser.fulfilled, registerUser.fulfilled, updateUser.fulfilled),
         (state, action) => {
@@ -129,14 +159,7 @@ export const userSlice = createSlice({
         }
       )
       .addMatcher(
-        isAnyOf(
-          loginUser.pending,
-          registerUser.pending,
-          updateUser.pending,
-          logoutUser.pending,
-          forgotPassword.pending,
-          resetPassword.pending
-        ),
+        isAnyOf(logoutUser.pending, forgotPassword.pending, resetPassword.pending),
         (state) => {
           state.isLoading = true;
           state.error = null;
@@ -149,14 +172,7 @@ export const userSlice = createSlice({
         }
       )
       .addMatcher(
-        isAnyOf(
-          loginUser.rejected,
-          registerUser.rejected,
-          updateUser.rejected,
-          logoutUser.rejected,
-          forgotPassword.rejected,
-          resetPassword.rejected
-        ),
+        isAnyOf(logoutUser.rejected, forgotPassword.rejected, resetPassword.rejected),
         (state, action) => {
           state.isLoading = false;
           state.error = action.error.message ?? 'Ошибка запроса';

@@ -13,7 +13,7 @@ export const Register = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationState = location.state as { from?: Location } | null;
-  const { error, isLoading } = useSelector(selectUserState);
+  const { registerError, isLoading } = useSelector(selectUserState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,7 +25,7 @@ export const Register = (): React.JSX.Element => {
   return (
     <RegisterUI
       locationState={locationState}
-      errorText={error ?? undefined}
+      errorText={registerError ?? undefined}
       email={email}
       userName={userName}
       password={password}

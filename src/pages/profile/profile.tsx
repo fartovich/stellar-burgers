@@ -6,7 +6,7 @@ import { selectUserState } from '@services/selectors';
 import { useDispatch, useSelector } from '@services/store';
 
 export const Profile = (): React.JSX.Element => {
-  const { user, error, isLoading } = useSelector(selectUserState);
+  const { user, updateUserError, isLoading } = useSelector(selectUserState);
   const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
@@ -57,7 +57,7 @@ export const Profile = (): React.JSX.Element => {
   return (
     <ProfileUI
       formValue={formValue}
-      updateUserError={error ?? undefined}
+      updateUserError={updateUserError ?? undefined}
       isFormChanged={isFormChanged}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}

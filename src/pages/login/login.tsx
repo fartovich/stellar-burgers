@@ -12,7 +12,7 @@ export const Login = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const location = useLocation();
   const locationState = location.state as { from?: Location } | null;
-  const { error, isLoading } = useSelector(selectUserState);
+  const { loginError, isLoading } = useSelector(selectUserState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,7 +24,7 @@ export const Login = (): React.JSX.Element => {
   return (
     <LoginUI
       locationState={locationState}
-      errorText={error ?? undefined}
+      errorText={loginError ?? undefined}
       email={email}
       setEmail={setEmail}
       password={password}
