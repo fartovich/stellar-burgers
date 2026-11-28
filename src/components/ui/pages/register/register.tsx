@@ -11,6 +11,7 @@ import styles from '../common.module.css';
 
 export const RegisterUI = ({
   errorText,
+  locationState,
   email,
   setEmail,
   handleSubmit,
@@ -69,7 +70,7 @@ export const RegisterUI = ({
       </form>
       <div className={`${styles.question} text text_type_main-default pb-6`}>
         Уже зарегистрированы?
-        <Link to="/login" className={`pl-2 ${styles.link}`}>
+        <Link to="/login" state={locationState} className={`pl-2 ${styles.link}`}>
           Войти
         </Link>
       </div>

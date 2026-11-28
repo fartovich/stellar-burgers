@@ -7,6 +7,7 @@ import styles from '../common.module.css';
 
 export const ForgotPasswordUI = ({
   errorText,
+  locationState,
   email,
   setEmail,
   handleSubmit,
@@ -40,7 +41,7 @@ export const ForgotPasswordUI = ({
       </form>
       <div className={`${styles.question} text text_type_main-default pb-6`}>
         Вспомнили пароль?
-        <Link to={'/login'} className={`pl-2 ${styles.link}`}>
+        <Link to={'/login'} state={locationState} className={`pl-2 ${styles.link}`}>
           Войти
         </Link>
       </div>

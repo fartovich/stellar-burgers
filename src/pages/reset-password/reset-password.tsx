@@ -1,10 +1,17 @@
-import { resetPasswordApi } from '@api';
+import { resetPassword } from '@slices/user';
 import { ResetPasswordUI } from '@ui-pages';
 import { type SyntheticEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { useDispatch } from '@services/store';
+
+import type { Location } from 'react-router-dom';
 
 export const ResetPassword = (): React.JSX.Element => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const locationState = location.state as { from?: Location } | null;
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [error, setError] = useState<Error | null>(null);
@@ -13,22 +20,24 @@ export const ResetPassword = (): React.JSX.Element => {
     e.preventDefault();
 
     setError(null);
-    void resetPasswordApi({ password, token })
+    void dispatch(resetPassword({ password, token }))
+      .unwrap()
       .then(() => {
         localStorage.removeItem('resetPassword');
-        void navigate('/login');
+        void navigate('/login', { state: locationState });
       })
       .catch((err: Error) => setError(err));
   };
 
   useEffect(() => {
     if (!localStorage.getItem('resetPassword')) {
-      void navigate('/forgot-password', { replace: true });
+      void navigate('/forgot-password', { replace: true, state: locationState });
     }
-  }, [navigate]);
+  }, [navigate, locationState]);
 
   return (
     <ResetPasswordUI
+      locationState={locationState}
       errorText={error?.message}
       password={password}
       token={token}
